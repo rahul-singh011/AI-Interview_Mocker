@@ -128,7 +128,7 @@ const QuestionSection = ({ mockInterviewQuestion = [], activeQuestionIndex = 0 }
           </div>
         </div>
         <p className="text-gray-700 text-lg leading-relaxed">
-          {mockInterviewQuestion?.[activeQuestionIndex]?.question}
+          {mockInterviewQuestion?.[activeQuestionIndex]?.question || "Loading question..."}
         </p>
       </div>
 
