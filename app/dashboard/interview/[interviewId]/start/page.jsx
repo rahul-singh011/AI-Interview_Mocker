@@ -50,34 +50,19 @@ const StartInterview = ({ params }) => {
 
         let questions;
         try {
-          const jsonString = typeof interview.jsonMockResp === 'string' 
-            ? interview.jsonMockResp 
-            : JSON.stringify(interview.jsonMockResp);
-
-          const parsedData = JSON.parse(jsonString);
+          // Parse the JSON response
+          const parsedData = JSON.parse(interview.jsonMockResp);
           
-          // Extract questions array from the parsed data
-          questions = parsedData.questions || [];
+          // Transform the data structure to match expected format
+          questions = parsedData.map(item => ({
+            question: item.Question,
+            answer: item.Answer
+          }));
           
-          console.log('Extracted questions:', questions);
+          console.log('Transformed questions:', questions);
 
-          if (!Array.isArray(questions)) {
-            throw new Error("Questions must be an array");
-          }
-
-          if (questions.length === 0) {
+          if (!Array.isArray(questions) || questions.length === 0) {
             throw new Error("No questions found in the interview");
-          }
-
-          // Validate question format
-          const validQuestions = questions.every(q => 
-            q && 
-            typeof q === 'object' && 
-            'question' in q
-          );
-
-          if (!validQuestions) {
-            throw new Error("Invalid question format detected");
           }
 
           setMockInterviewQuestion(questions);
